@@ -1,4 +1,4 @@
-package com.phasetranscrystal.brealib.api.registrate;
+package com.phasetranscrystal.brealib.api.registry.registrate;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceKey;

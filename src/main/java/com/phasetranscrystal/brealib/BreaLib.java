@@ -4,7 +4,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 
-import com.phasetranscrystal.brealib.api.registrate.BreaRegistrate;
+import com.phasetranscrystal.brealib.api.registry.registrate.BreaRegistrate;
+import com.phasetranscrystal.brealib.dev.DevBreaLib;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,5 +22,8 @@ public class BreaLib {
 
     public BreaLib(ModContainer container, IEventBus modEventBus) {
         BreaRegistrate.Brea.registerEventListeners(modEventBus);
+        if (BreaUtility.isDev()) {
+            new DevBreaLib(container, modEventBus);
+        }
     }
 }

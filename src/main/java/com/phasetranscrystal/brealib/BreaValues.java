@@ -1,5 +1,7 @@
 package com.phasetranscrystal.brealib;
 
+import net.minecraft.util.RandomSource;
+
 public class BreaValues {
 
     /**
@@ -14,4 +16,6 @@ public class BreaValues {
      * 例如,Nugget = M/9,因为它包含 1/9 的锭。
      */
     public static final long M = 3628800;
+    public static final long CLIENT_TIME = 0;
+    public static final RandomSource RNG = RandomSource.createThreadSafe();
 }

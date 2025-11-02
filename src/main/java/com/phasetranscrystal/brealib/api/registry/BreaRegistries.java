@@ -12,6 +12,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.phasetranscrystal.brealib.BreaUtility;
+import com.phasetranscrystal.brealib.api.material.Material;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.function.Consumer;
@@ -21,6 +22,7 @@ public class BreaRegistries {
     public static final ResourceLocation ROOT_REGISTRY_NAME = BreaUtility.id("root");
     public static final BreaRegistry<BreaRegistry<?>> ROOT = new BreaRegistry<>(ROOT_REGISTRY_NAME);
     // TODO ResourceKey
+    public static final ResourceKey<Registry<Material>> MATERIAL_RESOURCEKEY = makeRegistryKey(BreaUtility.id("material"));
 
     // TODO Registry
 

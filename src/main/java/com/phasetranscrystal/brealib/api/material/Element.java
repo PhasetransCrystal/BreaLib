@@ -23,13 +23,13 @@ public class Element {
     @Setter
     private long neutrons;
     /**
-     * Amount of Half Life this Material has in Seconds. -1 for stable Materials
+     * Amount of Half Life this MaterialDefinition has in Seconds. -1 for stable Materials
      */
     @Getter
     @Setter
     private long halfLifeSeconds;
     /**
-     * String representing the Elements this element decays to. Separated by an '&' Character
+     * String representing the BreaElements this element decays to. Separated by an '&' Character
      */
     @Getter
     @Setter

@@ -47,7 +47,9 @@ public class PropertyKey<T extends IMaterialProperty> {
         return key;
     }
 
-    private static class EmptyProperty implements IMaterialProperty {
+    public static class EmptyProperty implements IMaterialProperty {
+
+        private EmptyProperty() {}
 
         @Override
         public void verifyProperty(MaterialProperties properties) {

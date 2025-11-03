@@ -12,7 +12,9 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import com.tterrag.registrate.Registrate;
+import com.phasetranscrystal.brealib.api.material.MaterialDefinition;
+import com.phasetranscrystal.brealib.api.material.registrate.MaterialBuilder;
+import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.Builder;
 import com.tterrag.registrate.builders.NoConfigBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -31,7 +33,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BreaRegistrate extends Registrate {
+public class BreaRegistrate extends AbstractRegistrate<BreaRegistrate> {
 
     private static final Map<String, BreaRegistrate> EXISTING_REGISTRATES = new Object2ObjectOpenHashMap<>();
 
@@ -114,5 +116,21 @@ public class BreaRegistrate extends Registrate {
             config.accept(builder);
             return builder.build();
         });
+    }
+
+    public MaterialBuilder<MaterialDefinition, BreaRegistrate> material(String name) {
+        return material(self(), name, MaterialDefinition::new);
+    }
+
+    public <DEF extends MaterialDefinition> MaterialBuilder<DEF, BreaRegistrate> material(String name, MaterialBuilder.MaterialDefinitionFactory<DEF> materialDefinitionFactory) {
+        return material(self(), name, materialDefinitionFactory);
+    }
+
+    public <P> MaterialBuilder<MaterialDefinition, P> material(P owner, String name) {
+        return material(owner, name, MaterialDefinition::new);
+    }
+
+    public <DEF extends MaterialDefinition, P> MaterialBuilder<DEF, P> material(P owner, String name, MaterialBuilder.MaterialDefinitionFactory<DEF> materialDefinitionFactory) {
+        return entry(name, callback -> MaterialBuilder.create(self(), owner, name, callback, materialDefinitionFactory));
     }
 }

@@ -5,6 +5,8 @@ import com.phasetranscrystal.brealib.api.registry.registrate.BreaRegistrate;
 import com.phasetranscrystal.brealib.client.ClientProxy;
 import com.phasetranscrystal.brealib.data.block.BreaBlocks;
 import com.phasetranscrystal.brealib.data.item.BreaItems;
+import com.phasetranscrystal.brealib.data.material.BreaElements;
+import com.phasetranscrystal.brealib.data.material.BreaMaterials;
 import com.phasetranscrystal.brealib.data.misc.BreaCreativeModeTabs;
 
 public class CommonProxy {
@@ -23,5 +25,8 @@ public class CommonProxy {
         BreaItems.init();
     }
 
-    private static void initMaterials() {}
+    private static void initMaterials() {
+        BreaElements.init();
+        BreaMaterials.init();
+    }
 }

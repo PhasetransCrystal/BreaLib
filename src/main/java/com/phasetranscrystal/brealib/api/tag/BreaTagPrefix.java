@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.google.common.collect.Table;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.phasetranscrystal.brealib.api.material.Material;
+import com.phasetranscrystal.brealib.api.material.MaterialDefinition;
 import com.phasetranscrystal.brealib.utils.FormattingUtil;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
@@ -55,7 +55,7 @@ public class BreaTagPrefix {
 
     public static class Conditions {}
 
-    public record OreType(Supplier<BlockState> stoneType, Supplier<Material> material,
+    public record OreType(Supplier<BlockState> stoneType, Supplier<MaterialDefinition> material,
                           Supplier<BlockBehaviour.Properties> template, ResourceLocation baseModelLocation,
                           boolean isDoubleDrops, boolean isSand, boolean shouldDropAsItem) {}
 
@@ -94,7 +94,7 @@ public class BreaTagPrefix {
 
     @Getter
     @Setter
-    private @Nullable Predicate<Material> generationCondition;
+    private @Nullable Predicate<MaterialDefinition> generationCondition;
 
     // @Nullable
     // @Getter
@@ -102,15 +102,15 @@ public class BreaTagPrefix {
     // private MaterialIconType materialIconType;
 
     @Setter
-    private Supplier<Table<BreaTagPrefix, Material, ? extends Supplier<? extends ItemLike>>> itemTable;
+    private Supplier<Table<BreaTagPrefix, MaterialDefinition, ? extends Supplier<? extends ItemLike>>> itemTable;
 
     @Nullable
     @Getter
     @Setter
-    private BiConsumer<Material, List<Component>> tooltip;
+    private BiConsumer<MaterialDefinition, List<Component>> tooltip;
 
-    private final Map<Material, Supplier<? extends ItemLike>[]> ignoredMaterials = new HashMap<>();
-    private final Object2FloatMap<Material> materialAmounts = new Object2FloatOpenHashMap<>();
+    private final Map<MaterialDefinition, Supplier<? extends ItemLike>[]> ignoredMaterials = new HashMap<>();
+    private final Object2FloatMap<MaterialDefinition> materialAmounts = new Object2FloatOpenHashMap<>();
 
     @Getter
     @Setter

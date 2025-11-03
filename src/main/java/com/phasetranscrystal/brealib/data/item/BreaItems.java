@@ -10,7 +10,7 @@ import static com.phasetranscrystal.brealib.api.registry.registrate.BreaRegistra
 public class BreaItems {
 
     static {
-        Brea.defaultCreativeTab(BreaCreativeModeTabs.MATERIAL_FLUID.getKey());
+        Brea.defaultCreativeTab(BreaCreativeModeTabs.OTHERS.getKey());
     }
 
     public static ItemEntry<Item> TestItem = Brea.item("test_item", Item::new)

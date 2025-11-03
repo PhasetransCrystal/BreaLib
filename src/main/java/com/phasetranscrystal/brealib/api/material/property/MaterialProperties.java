@@ -2,7 +2,7 @@ package com.phasetranscrystal.brealib.api.material.property;
 
 import com.phasetranscrystal.brealib.BreaLib;
 import com.phasetranscrystal.brealib.BreaUtility;
-import com.phasetranscrystal.brealib.api.material.Material;
+import com.phasetranscrystal.brealib.api.material.MaterialDefinition;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +17,7 @@ public class MaterialProperties {
     private final Map<PropertyKey<? extends IMaterialProperty>, IMaterialProperty> propertyMap;
     @Getter
     @Setter
-    private Material material;
+    private MaterialDefinition material;
 
     @SuppressWarnings("unused")
     public static void addBaseType(PropertyKey<?> baseTypeKey) {
@@ -41,16 +41,16 @@ public class MaterialProperties {
     }
 
     public <T extends IMaterialProperty> void setProperty(PropertyKey<T> key, IMaterialProperty value) {
-        if (value == null) throw new IllegalArgumentException("Material Property must not be null!");
+        if (value == null) throw new IllegalArgumentException("MaterialDefinition Property must not be null!");
         if (hasProperty(key))
-            throw new IllegalArgumentException("Material Property " + key.toString() + " already registered!");
+            throw new IllegalArgumentException("MaterialDefinition Property " + key.toString() + " already registered!");
         propertyMap.put(key, value);
         propertyMap.remove(PropertyKey.EMPTY);
     }
 
     public <T extends IMaterialProperty> void removeProperty(PropertyKey<T> property) {
         if (!hasProperty(property))
-            throw new IllegalArgumentException("Material Property " + property.toString() + " not present!");
+            throw new IllegalArgumentException("MaterialDefinition Property " + property.toString() + " not present!");
         propertyMap.remove(property);
         if (propertyMap.isEmpty())
             propertyMap.put(PropertyKey.EMPTY, PropertyKey.EMPTY.constructDefault());
@@ -78,11 +78,11 @@ public class MaterialProperties {
         if (propertyMap.keySet().stream().noneMatch(baseTypes::contains)) {
             if (propertyMap.isEmpty()) {
                 if (BreaUtility.isDev()) {
-                    BreaLib.LOGGER.debug("Creating empty placeholder Material {}", material);
+                    BreaLib.LOGGER.debug("Creating empty placeholder MaterialDefinition {}", material);
                 }
                 propertyMap.put(PropertyKey.EMPTY, PropertyKey.EMPTY.constructDefault());
             } else
-                throw new IllegalArgumentException("Material must have at least one of: " + baseTypes + " specified!");
+                throw new IllegalArgumentException("MaterialDefinition must have at least one of: " + baseTypes + " specified!");
         }
     }
 

@@ -12,7 +12,8 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.phasetranscrystal.brealib.BreaUtility;
-import com.phasetranscrystal.brealib.api.material.Material;
+import com.phasetranscrystal.brealib.api.material.Element;
+import com.phasetranscrystal.brealib.api.material.MaterialDefinition;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.function.Consumer;
@@ -22,9 +23,10 @@ public class BreaRegistries {
     public static final ResourceLocation ROOT_REGISTRY_NAME = BreaUtility.id("root");
     public static final BreaRegistry<BreaRegistry<?>> ROOT = new BreaRegistry<>(ROOT_REGISTRY_NAME);
     // TODO ResourceKey
-    public static final ResourceKey<Registry<Material>> MATERIAL_RESOURCEKEY = makeRegistryKey(BreaUtility.id("material"));
-
+    public static final ResourceKey<Registry<MaterialDefinition>> MATERIAL_RESOURCEKEY = makeRegistryKey(BreaUtility.id("material"));
+    public static final ResourceKey<Registry<Element>> ELEMENT_RESOURCEKEY = makeRegistryKey(BreaUtility.id("element"));
     // TODO Registry
+    public static final BreaRegistry<Element> ELEMENTS = new BreaRegistry<>(ELEMENT_RESOURCEKEY);
 
     public static <T> ResourceKey<Registry<T>> makeRegistryKey(ResourceLocation registryId) {
         return ResourceKey.createRegistryKey(registryId);

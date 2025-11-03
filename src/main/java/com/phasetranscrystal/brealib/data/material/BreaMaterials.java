@@ -21,6 +21,9 @@ public class BreaMaterials {
 
     public static MaterialEntry<MaterialDefinition> Electrum = Brea.material("electrum")
             .setComponents(BreaElements.Au, 1, BreaElements.Ag, 1)
+            .ingot()
+            .dust()
+            .block("%s_block")
             .register();
 
     public static void init() {}

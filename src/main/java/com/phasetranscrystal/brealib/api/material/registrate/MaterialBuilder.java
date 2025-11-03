@@ -1,7 +1,9 @@
 package com.phasetranscrystal.brealib.api.material.registrate;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import com.phasetranscrystal.brealib.api.material.Element;
@@ -11,6 +13,7 @@ import com.phasetranscrystal.brealib.api.material.property.PropertyKey;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.AbstractBuilder;
 import com.tterrag.registrate.builders.BuilderCallback;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonnullType;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -112,8 +115,41 @@ public class MaterialBuilder<DEF extends MaterialDefinition, P> extends Abstract
         return (MaterialEntry<DEF>) super.register();
     }
 
+    private final Map<PropertyKey, RegistryEntry> propertyStorage = new HashMap<>();
+
     @Override
     protected @NotNull MaterialEntry<DEF> createEntryWrapper(@NotNull DeferredHolder<MaterialDefinition, DEF> delegate) {
-        return new MaterialEntry<>(this.getOwner(), delegate);
+        var me = new MaterialEntry<>(this.getOwner(), delegate);
+        me.getPropertyStorage().putAll(propertyStorage);
+        return me;
+    }
+
+    public MaterialBuilder<DEF, P> fluid(String format) {
+        var fluidName = format.formatted(getName());
+        return getOwner().fluid(this, fluidName).build();
+    }
+
+    public MaterialBuilder<DEF, P> liquid() {
+        return fluid("liquid_%s");
+    }
+
+    public MaterialBuilder<DEF, P> item(String format) {
+        return getOwner().item(this, format.formatted(getName()), prop -> new Item(prop)).build();
+    }
+
+    public MaterialBuilder<DEF, P> ingot() {
+        return this.item("%s_ingot");
+    }
+
+    public MaterialBuilder<DEF, P> dust() {
+        return this.item("%s_dust");
+    }
+
+    public MaterialBuilder<DEF, P> plate() {
+        return this.item("%s_plate");
+    }
+
+    public MaterialBuilder<DEF, P> block(String format) {
+        return getOwner().block(this, format.formatted(getName()), prop -> new Block(prop)).simpleItem().build();
     }
 }

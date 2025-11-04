@@ -4,7 +4,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 
-import com.phasetranscrystal.brealib.api.registrate.BreaRegistrate;
+import com.phasetranscrystal.brealib.client.ClientProxy;
+import com.phasetranscrystal.brealib.common.CommonProxy;
+import com.tterrag.registrate.util.RegistrateDistExecutor;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,8 +21,16 @@ public class BreaLib {
 
     public static final String MOD_ID = "brealib";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    public static final String NAME = "Brea";
+
+    @Getter
+    private static ModContainer modContainer;
+    @Getter
+    private static IEventBus modEventBus;
 
     public BreaLib(ModContainer container, IEventBus modEventBus) {
-        BreaRegistrate.Brea.registerEventListeners(modEventBus);
+        BreaLib.modContainer = container;
+        BreaLib.modEventBus = modEventBus;
+        RegistrateDistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     }
 }

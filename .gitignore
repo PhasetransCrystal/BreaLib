@@ -25,3 +25,4 @@ run
 src/generated/
 /logs/
 
+/src/main/resources/assets/brealib/

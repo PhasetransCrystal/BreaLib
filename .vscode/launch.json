@@ -1,0 +1,93 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Client",
+      "presentation": {
+        "group": "Mod Development - BreaLib",
+        "order": 0
+      },
+      "projectName": "BreaLib",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dbrealib%%/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run/client",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "clientData",
+      "presentation": {
+        "group": "Mod Development - BreaLib",
+        "order": 1
+      },
+      "projectName": "BreaLib",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/clientDataRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/clientDataRunVmArgs.txt",
+        "-Dfml.modFolders\u003dbrealib%%/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run/clientData",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Server",
+      "presentation": {
+        "group": "Mod Development - BreaLib",
+        "order": 2
+      },
+      "projectName": "BreaLib",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dbrealib%%/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run/server",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "serverData",
+      "presentation": {
+        "group": "Mod Development - BreaLib",
+        "order": 3
+      },
+      "projectName": "BreaLib",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/serverDataRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/build/moddev/serverDataRunVmArgs.txt",
+        "-Dfml.modFolders\u003dbrealib%%/home/qianxi/source/repos/Java/BreaNonatomic/BreaLib/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run/serverData",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}

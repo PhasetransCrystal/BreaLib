@@ -1,0 +1,17 @@
+repositories {
+    mavenLocal()
+
+    mavenCentral()
+
+    exclusiveContent { // Curseforge Maven
+        forRepository { maven { url = "https://cursemaven.com" } }
+        filter { includeGroup("curse.maven") }
+    }
+    maven {
+        url 'https://www.jitpack.io' // GitHub模组仓库
+    }
+    maven {
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
+}

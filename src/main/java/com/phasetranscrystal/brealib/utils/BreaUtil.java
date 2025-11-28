@@ -17,7 +17,7 @@ import java.nio.file.Path;
 
 public final class BreaUtil {
 
-    private static final ResourceLocation TEMPLATE_LOCATION = ResourceLocation.fromNamespaceAndPath(BreaLib.MOD_ID, "");
+    private static final ResourceLocation TEMPLATE_LOCATION = ResourceLocation.fromNamespaceAndPath(BreaLib.Core_ID, "");
 
     public static ResourceLocation byPath(String path) {
         if (Strings.isBlank(path)) {
@@ -27,11 +27,11 @@ public final class BreaUtil {
     }
 
     public static String appendIdString(String id) {
-        return id.indexOf(':') == -1 ? (BreaLib.MOD_ID + ":" + id) : id;
+        return id.indexOf(':') == -1 ? (BreaLib.Core_ID + ":" + id) : id;
     }
 
     public static ResourceLocation appendId(String id) {
-        String[] strings = new String[] { BreaLib.MOD_ID, id };
+        String[] strings = new String[] { BreaLib.Core_ID, id };
         int i = id.indexOf(':');
         if (i >= 0) {
             strings[1] = id.substring(i + 1);

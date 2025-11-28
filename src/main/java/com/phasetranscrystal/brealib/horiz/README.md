@@ -41,9 +41,19 @@ void method() {
 
 通过创建`SavableEventConsumerData`的子类以自定义可持久化的事件监听器。
 
+如下展示了一个例子，用于在玩家进入世界时发送问候消息。
+
 ```java
-public class MyLoginListener(String content) extends SavableEventConsumerData<PlayerEvent.PlayerLoggedInEvent> {
-    
+public static class LoginListener extends SavableEventConsumerData<PlayerEvent.PlayerLoggedInEvent> {
+    public static final MapCodec<LoginListener> CODEC =
+            Codec.STRING.xmap(LoginListener::new, LoginListener::getContent).fieldOf("text");
+    @Getter
+    public final String content;
+
+    public LoginListener(String content) {
+        this.content = content;
+    }
+
     @Override
     public Class<PlayerEvent.PlayerLoggedInEvent> getEventClass() {
         return PlayerEvent.PlayerLoggedInEvent.class;
@@ -52,7 +62,7 @@ public class MyLoginListener(String content) extends SavableEventConsumerData<Pl
     @Override
     protected void consumeEvent(PlayerEvent.PlayerLoggedInEvent event) {
         // 处理玩家登录事件
-        event.getEntity().sendSystemMessage(Component.literal(content));
+        event.getEntity().displayClientMessage(Component.literal(content), false);
     }
 
     //配置是否允许处理取消的事件
@@ -62,135 +72,88 @@ public class MyLoginListener(String content) extends SavableEventConsumerData<Pl
     }
 
     @Override
-    public MapCodec<SavableEventConsumerData<?>> getCodec() {
-        // 返回对应的编解码器
-        return ModRegisty.MY_LOGIN_LISTENER;
+    public MapCodec<LoginListener> getCodec() {
+        return LOGIN_SHOW_TEXT.get();
+    }
+}
+
+public static final DeferredRegister<MapCodec<? extends SavableEventConsumerData<?>>> REGISTER =
+        DeferredRegister.create(SAVABLE_EVENT_CONSUMER_TYPE, BreaLib.MOD_ID);
+
+public static final DeferredHolder<MapCodec<? extends SavableEventConsumerData<?>>, MapCodec<LoginListener>> LOGIN_SHOW_TEXT =
+        REGISTER.register("horiz/login_show_text", () -> LoginListener.CODEC);
+
+@SubscribeEvent
+public static void bingingToPlayer(EntityDistributorInit.GatherEntityDistributeEvent event) {
+    if (event.getEntity() instanceof Player) {
+        event.getEntity().getData(EVENT_DISTRIBUTOR).add(new LoginListener("HELLO PLAYER!"), BreaLib.byPath("testing"));
     }
 }
 ```
 
 ## 事件类型支持
 
-系统支持多种实体事件，包括但不限于：
+系统支持多种实体事件。
 
-### 战斗事件
-
-- `EntityAttackEvent.Income/Pre/Post` - 实体攻击事件
-- `LivingDamageEvent.Pre/Post` - 伤害计算事件
-- `LivingDeathEvent` - 实体死亡事件
-- `EntityKillEvent.Pre/Post` - 实体击杀事件
-
-### 交互事件
-
-- `PlayerInteractEvent` 系列 - 玩家交互事件
-- `ItemEntityPickupEvent.Pre/Post` - 物品拾取事件
-- `AttackEntityEvent` - 攻击实体事件
-
-### 状态事件
-
-- `PlayerEvent` 系列 - 玩家相关事件
-- `LivingEntityUseItemEvent` - 物品使用事件
-- `MobEffectEvent` 系列 - 状态效果事件
+可以在[`BreaHoriz.EntityDistributorInit.bootstrapConsumer`](BreaHoriz.java)下查看内置支持的事件
 
 ## 路径管理
+
+相关内容可以查询[`Tree`](Tree.java)与[`EventDistributor`](EventDistributor.java)内的javadoc。
+在此只展示一些基本用法。
 
 ### 路径操作示例
 
 ```java
-// 添加带路径的监听器
-distributor.add(eventClass, listener, 
-    new ResourceLocation("mymod", "combat"), 
-    new
+import net.minecraft.resources.ResourceLocation;
 
-ResourceLocation("sword_effects"));
+void inSomewhere() {
+    ResourceLocation COMBAT = ResourceLocation.fromNamespaceAndPath("mymod", "combat");
+    ResourceLocation SWORD = ResourceLocation.fromNamespaceAndPath("mymod", "sword");
+    // 添加带路径的监听器
+    distributor.add(eventClass, listener, COMBAT, SWORD);
+    
+    // 移除特定路径下的所有监听器
+    distributor.removeInPath(COMBAT);
 
-// 移除特定路径下的所有监听器
-        distributor.
-
-removeInPath(new ResourceLocation("mymod", "combat"));
-
-// 移除精确路径的监听器
-        distributor.
-
-removeAtPath(new ResourceLocation("mymod", "combat","sword_effects"));
+    // 移除精确路径位置的监听器
+    distributor.removeAtPath(COMBAT, SWORD);
+}
 ```
 
-## 高级特性
-
-### 1. 事件取消处理
+### 事件取消处理
 
 ```java
-// 设置监听器处理已取消的事件
-distributor.add(eventClass, listener, true,path);
+void inSomewhere(){
+    // 设置监听器处理已取消的事件
+    distributor.add(eventClass, listener, true,path);
+}
 ```
 
-### 2. 批量操作
+### 批量操作
 
 ```java
-// 移除所有监听器
-distributor.removeAll();
+void inSomeplace() {
+    // 移除所有监听器
+    distributor.removeAll();
 
-// 按事件类移除
-distributor.
-
-removeByClass(PlayerInteractEvent .class);
+    // 按事件类移除
+    distributor.removeByClass(PlayerInteractEvent.class);
+}
 ```
 
-### 3. 树形结构遍历
+### 树形结构遍历
 
 ```java
+void inSomeplace() {
 // 遍历所有监听器及其路径
-distributor.markedListeners.forEach((path, identEvent) ->{
-        System.out.
-
-println("路径: "+path +", 事件: "+identEvent.event());
-        });
+    distributor.markedListeners.forEach((path, identEvent) -> {
+        System.out.println("路径: " + path + ", 事件: " + identEvent.event());
+    });
+}
 ```
 
-## 注册和初始化
+## 额外事件注册
 
-### 自动注册
-
-系统会自动注册所需的事件监听器，包括：
-
-- 实体加入世界时的分发器初始化
-- 战斗事件的自定义转发逻辑
-- 各种实体事件的监听器设置
-
-### 手动初始化
-
-```java
-// 在主模组初始化中调用
-BreaHoriz.bootstrap(modEventBus);
-```
-
-## 注意事项
-
-1. **事件哈希缓存**: 系统使用哈希缓存防止同一事件被重复处理
-2. **线程安全**: 使用监听器副本避免并发修改异常
-3. **序列化限制**: 可序列化监听器需要在注册表中注册对应的编解码器
-4. **性能考虑**: 大量监听器可能影响性能，建议合理组织路径结构
-
-## 扩展开发
-
-开发者可以通过以下方式扩展系统功能：
-
-1. **实现自定义事件**: 创建继承自 `EntityEvent` 的自定义事件
-2. **扩展序列化支持**: 实现新的 `SavableEventConsumerData` 子类
-3. **集成其他系统**: 将现有事件系统与 BreaHoriz 集成
-
-## 故障排除
-
-### 常见问题
-
-1. **监听器不触发**: 检查事件类是否正确，路径是否有效
-2. **序列化错误**: 确保可序列化监听器的编解码器已正确注册
-3. **性能问题**: 优化监听器逻辑，避免在事件处理中执行耗时操作
-
-### 调试建议
-
-启用调试日志查看事件分发详情：
-
-```java
-BreaHoriz.LOGGER.debug("事件分发详情: {}",eventDetails);
-```
+如果需要将其它模组或自定义的与实体有关的事件注册，
+可以参考[`BreaHoriz.EntityDistributorInit.bootstrapConsumer`](BreaHoriz.java)直接监听对应事件进行注册。

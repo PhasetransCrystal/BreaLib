@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public record IdentEvent<T extends Event>(Class<T> event, Consumer<T> listener, boolean handleCancelled) {
+
     public IdentEvent(Class<T> event, Consumer<T> listener) {
         this(event, listener, false);
     }

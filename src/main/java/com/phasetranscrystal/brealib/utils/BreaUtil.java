@@ -19,7 +19,7 @@ public final class BreaUtil {
 
     private static final ResourceLocation TEMPLATE_LOCATION = ResourceLocation.fromNamespaceAndPath(BreaLib.MOD_ID, "");
 
-    public static ResourceLocation id(String path) {
+    public static ResourceLocation byPath(String path) {
         if (Strings.isBlank(path)) {
             return TEMPLATE_LOCATION;
         }

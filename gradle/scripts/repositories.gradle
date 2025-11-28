@@ -1,6 +1,8 @@
 repositories {
     mavenLocal()
-
+    flatDir {
+        dir "libs"
+    }
     mavenCentral()
 
     exclusiveContent { // Curseforge Maven

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class BreaLib {
 
     public static final String MOD_ID = "brealib";
+    public static final String Core_ID = "breacore";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static final String NAME = "Brea";
 }

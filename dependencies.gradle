@@ -30,4 +30,7 @@ dependencies {
         exclude group: "com.ibm.icu", module: "icu4j"
         exclude group: "it.unimi.dsi", module: "fastutil"
     }
+
+    // Configuration library
+    implementation "dev.toma.configuration:configuration-${project.minecraft_version}:${project.configuration_version}-neoforge"
 }

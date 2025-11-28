@@ -15,11 +15,11 @@ import java.util.function.Predicate;
  * @param <N> 树节点存储的数据类型
  */
 public class Tree<E, N> {
+
     private final Map<E, Tree<E, N>> branches = new HashMap<>();
     private final Set<N> nodes = new HashSet<>();
 
-    public Tree() {
-    }
+    public Tree() {}
 
     public Tree(List<Pair<List<E>, List<N>>> saving) {
         saving.forEach(p -> this.addAll(p.getSecond(), 0, p.getFirst()));
@@ -41,12 +41,13 @@ public class Tree<E, N> {
      *
      * @param element 要添加的元素
      * @param path    元素的路径，空路径表示添加到根节点
-     * @return 如果元素成功添加返回true，如果元素已存在返回false
      */
-    public boolean add(N element, E... path) {
-        return add(element, 0, path);
+    @SafeVarargs
+    public final void add(N element, E... path) {
+        add(element, 0, path);
     }
 
+    @SafeVarargs
     private boolean add(N element, int startIndex, E... path) {
         if (startIndex >= path.length) {
             return nodes.add(element);
@@ -63,10 +64,12 @@ public class Tree<E, N> {
      * @param path     元素的路径，空路径表示添加到根节点
      * @return 如果元素成功添加返回true，如果元素已存在返回false
      */
-    public boolean addAll(List<N> elements, E... path) {
+    @SafeVarargs
+    public final boolean addAll(List<N> elements, E... path) {
         return addAll(elements, 0, path);
     }
 
+    @SafeVarargs
     private boolean addAll(List<N> elements, int startIndex, E... path) {
         if (startIndex >= path.length) {
             return nodes.addAll(elements);
@@ -102,7 +105,8 @@ public class Tree<E, N> {
      * @param path 元素所在的路径
      * @return 如果元素存在并被移除返回true，否则返回false
      */
-    public boolean removeAtPath(N node, E... path) {
+    @SafeVarargs
+    public final boolean removeAtPath(N node, E... path) {
         return removeAtPath(node, 0, path);
     }
 
@@ -113,12 +117,14 @@ public class Tree<E, N> {
      * @param path 元素所在的路径
      * @return 如果元素存在并被移除返回true，否则返回false
      */
-    public boolean removeAtPathAndTidyUp(N node, E... path) {
+    @SafeVarargs
+    public final boolean removeAtPathAndTidyUp(N node, E... path) {
         var r = removeAtPath(node, 0, path);
         tidyUp();
         return r;
     }
 
+    @SafeVarargs
     private boolean removeAtPath(N node, int startIndex, E... path) {
         if (startIndex >= path.length) {
             return nodes.remove(node);
@@ -215,10 +221,12 @@ public class Tree<E, N> {
      * @param path 要清空的路径
      * @return 被移除的元素集合，如果路径不存在返回空集合
      */
-    public Collection<N> removeAtPath(E... path) {
+    @SafeVarargs
+    public final Collection<N> removeAtPath(E... path) {
         return removeAtPath(0, path);
     }
 
+    @SafeVarargs
     private Collection<N> removeAtPath(int startIndex, E... path) {
         if (startIndex >= path.length) {
             var collection = List.copyOf(nodes);
@@ -249,10 +257,12 @@ public class Tree<E, N> {
      * @param path 要清空的路径
      * @return 被移除的元素集合，如果路径不存在返回空集合
      */
-    public Collection<N> removeInPath(E... path) {
+    @SafeVarargs
+    public final Collection<N> removeInPath(E... path) {
         return removeInPath(0, path);
     }
 
+    @SafeVarargs
     private Collection<N> removeInPath(int startIndex, E... path) {
         if (startIndex >= path.length) {
             return removeAll();
@@ -269,10 +279,12 @@ public class Tree<E, N> {
      * @param path 要检查的路径
      * @return 如果路径存在且包含元素或子分支返回true，否则返回false
      */
-    public boolean containsPathNotEmpty(E... path) {
+    @SafeVarargs
+    public final boolean containsPathNotEmpty(E... path) {
         return containsPathNotEmpty(0, path);
     }
 
+    @SafeVarargs
     private boolean containsPathNotEmpty(int startIndex, E... path) {
         return startIndex >= path.length ?
                 !this.nodes.isEmpty() :
@@ -302,7 +314,7 @@ public class Tree<E, N> {
         });
     }
 
-    public static <E,N> Codec<Tree<E, N>> createCodec(Codec<E> entryCodec, Codec<N> nodeCodec) {
+    public static <E, N> Codec<Tree<E, N>> createCodec(Codec<E> entryCodec, Codec<N> nodeCodec) {
         return Codec.pair(entryCodec.listOf(), nodeCodec.listOf()).listOf().xmap(Tree::new, Tree::flattening);
     }
 

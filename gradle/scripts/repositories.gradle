@@ -8,10 +8,15 @@ repositories {
         filter { includeGroup("curse.maven") }
     }
     maven {
-        url 'https://www.jitpack.io' // GitHub模组仓库
+        url = 'https://www.jitpack.io' // GitHub模组仓库
     }
     maven {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
+    // MUI
+    maven {
+        name = 'IzzelAliz Maven'
+        url = 'https://maven.izzel.io/releases/'
     }
 }

@@ -4,9 +4,7 @@
   "package": "com.phasetranscrystal.brealib.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "registrate.neoforge.MappedRegistryAccess",
-    "registrate.neoforge.RegisterEventAccessor",
-    "registrate.neoforge.ResourceKeyAccessor"
+    "registrate.neoforge.RegisterEventAccessor"
   ],
   "client": [
   ],

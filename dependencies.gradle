@@ -5,6 +5,7 @@ dependencies {
     implementation 'thedarkcolour:kotlinforforge-neoforge:5.3.0'
 
     implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     //jarJar(api("com.tterrag.registrate:Registrate:1.4.0"))
     jarJar(api("dev:Registrate:1.4.0"))

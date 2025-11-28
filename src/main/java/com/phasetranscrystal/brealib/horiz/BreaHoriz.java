@@ -36,7 +36,7 @@ public class BreaHoriz {
     public static void bootstrap(IEventBus bus) {
         REGISTER.register(bus);
         EntityDistributorInit.bootstrapConsumer();
-        Test.REGISTER.register(bus);
+//        Test.REGISTER.register(bus); //FOR TEST
     }
 
     public static final ResourceKey<Registry<MapCodec<? extends SavableEventConsumerData<?>>>> SAVABLE_EVENT_CONSUMER_TYPE_KEY =
@@ -287,7 +287,7 @@ public class BreaHoriz {
         }
     }
 
-    @EventBusSubscriber(modid = BreaLib.MOD_ID)
+//    @EventBusSubscriber(modid = BreaLib.MOD_ID)
     public static class Test {
         public static class LoginListener extends SavableEventConsumerData<PlayerEvent.PlayerLoggedInEvent> {
             public static final MapCodec<LoginListener> CODEC =

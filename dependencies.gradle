@@ -8,7 +8,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     //jarJar(api("com.tterrag.registrate:Registrate:1.4.0"))
-    jarJar(api("dev:Registrate:1.4.0"))
+    implementation("dev:Registrate:1.4.0")
 
     // Modern UI
     implementation("icyllis.modernui:ModernUI-NeoForge:${minecraft_version}-${modernui_version}.+")

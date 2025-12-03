@@ -25,3 +25,4 @@ src/generated/
 /logs/
 
 run
+.git/worktree/

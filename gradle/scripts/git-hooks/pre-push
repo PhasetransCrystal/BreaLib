@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#############################
+# 1. 环境探测
+#############################
+# 1.1 操作系统
+case "$(uname -s)" in
+  MINGW*|CYGWIN*|MSYS*)  OS=windows ;;
+  *)                      OS=nix ;;
+esac
+
+# 1.2 是否在 WSL
+[[ -n "${WSL_DISTRO_NAME:-}" ]] && OS=wsl
+
+# 1.3 Git 版本检测（worktree 需要 ≥ 2.5）
+git_ver=$(git version | awk '{print $3}')
+need_ver="2.5.0"
+if ! printf '%s\n%s\n' "$need_ver" "$git_ver" | sort -V -C; then
+  echo "Git 版本过低（$git_ver），跳过 spotless 检查"
+  exit 0
+fi
+
+#############################
+# 2. 项目根目录与 gradlew
+#############################
+REPO_TLD=$(git rev-parse --show-toplevel)
+GRADLEW="$REPO_TLD/gradlew"
+
+# 2.1 gradlew 是否存在
+if [[ ! -f "$GRADLEW" ]]; then
+  echo "未找到 $GRADLEW，跳过 spotless 检查"
+  exit 0
+fi
+
+# 2.2 执行权限（Windows 忽略）
+if [[ "$OS" != windows ]] && [[ ! -x "$GRADLEW" ]]; then
+  echo "赋予 gradlew 执行权限"
+  chmod +x "$GRADLEW"
+fi
+
+# 2.3 Java 环境
+if ! command -v java >/dev/null 2>&1; then
+  echo "未找到 Java 运行时，推送中止"
+  exit 1
+fi
+
+#############################
+# 3. 自动忽略 worktree 目录
+#############################
+GITIGNORE="$REPO_TLD/.gitignore"
+if ! grep -q "^\\.git/worktree/" "$GITIGNORE" 2>/dev/null; then
+  echo ".git/worktree/" >> "$GITIGNORE"
+  echo "已追加 .git/worktree/ 到 .gitignore"
+fi
+
+#############################
+# 4. pre-push 主逻辑
+#############################
+while read local_ref local_oid remote_ref remote_oid; do
+  branch=${local_ref#refs/heads/}
+  [[ -z "$branch" ]] && continue
+
+  worktree="$REPO_TLD/.git/worktree/spotless-$$"
+  # 清理遗留
+  git worktree list | grep -q "$worktree" && git worktree remove "$worktree" 2>/dev/null || true
+
+  # 创建 worktree（失败就跳过）
+  if ! git worktree add --detach "$worktree" "$local_oid" 2>/dev/null; then
+    echo "无法为 $branch 创建 worktree，跳过检查"
+    continue
+  fi
+
+  # ---- 进入 worktree ----
+  pushd "$worktree" >/dev/null
+    # 可选：离线模式开关
+    # ./gradlew --offline spotlessCheck ...
+
+    echo "[$branch] 执行 spotlessCheck..."
+    if ! ./gradlew spotlessCheck --quiet; then
+      echo "[$branch] spotlessCheck 未通过，推送已阻止"
+      echo "    请在本地执行 ./gradlew spotlessApply 后重新提交"
+      popd >/dev/null
+      git worktree remove "$worktree"
+      exit 1
+    fi
+    echo "[$branch] 检查通过"
+  popd >/dev/null
+
+  git worktree remove "$worktree"
+done
+
+exit 0

@@ -1,5 +1,7 @@
 package com.phasetranscrystal.brealib.utils;
 
+import com.phasetranscrystal.brealib.BreaLib;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -10,7 +12,6 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.data.loading.DatagenModLoader;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
-import com.phasetranscrystal.brealib.BreaLib;
 import org.apache.logging.log4j.util.Strings;
 
 import java.nio.file.Path;

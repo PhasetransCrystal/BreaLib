@@ -67,3 +67,17 @@ idea {
         downloadJavadoc = true
     }
 }
+
+tasks.register("installGitHooks") {
+    doLast {
+        copy {
+            from("gradle/scripts/git-hooks/pre-push")
+            into(".git/hooks")
+            fileMode(0b111101101) // -rwxr-xr-x
+        }
+    }
+}
+
+tasks.generateModMetadata{
+    finalizedBy("installGitHooks")
+}

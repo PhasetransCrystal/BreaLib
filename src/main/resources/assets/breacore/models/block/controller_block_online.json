@@ -1,0 +1,7 @@
+{
+  "parent": "breacore:block/controller_block_lights",
+  "textures": {
+    "block": "breacore:block/controller_powered",
+    "lights": "breacore:block/controller_lights"
+  }
+}

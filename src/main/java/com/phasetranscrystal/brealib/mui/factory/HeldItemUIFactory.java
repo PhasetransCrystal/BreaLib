@@ -10,8 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import lombok.Getter;
 
@@ -33,7 +31,6 @@ public class HeldItemUIFactory extends UIFactory<HeldItemUIFactory.HeldItemHolde
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     protected HeldItemHolder readHolderFromSyncData(RegistryFriendlyByteBuf syncData) {
         Player player = Minecraft.getInstance().player;
         return player == null ? null : new HeldItemHolder(player, syncData.readEnum(InteractionHand.class));

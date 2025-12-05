@@ -2,9 +2,7 @@ package com.phasetranscrystal.brealib;
 
 import com.phasetranscrystal.brealib.mui.TestingFragment;
 import com.phasetranscrystal.brealib.utils.BreaUtil;
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import icyllis.modernui.TestFragment;
-import icyllis.modernui.mc.MuiModApi;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,10 +13,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-
-import net.neoforged.fml.event.IModBusEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import icyllis.modernui.mc.MuiModApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

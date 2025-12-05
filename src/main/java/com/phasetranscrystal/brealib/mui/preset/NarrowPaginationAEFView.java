@@ -2,6 +2,9 @@ package com.phasetranscrystal.brealib.mui.preset;
 
 import com.phasetranscrystal.brealib.mui.MuiHelper;
 import com.phasetranscrystal.brealib.mui.PublicTexture;
+
+import net.minecraft.resources.ResourceLocation;
+
 import icyllis.modernui.animation.ObjectAnimator;
 import icyllis.modernui.animation.PropertyValuesHolder;
 import icyllis.modernui.animation.TimeInterpolator;
@@ -16,9 +19,9 @@ import icyllis.modernui.view.MotionEvent;
 import icyllis.modernui.view.View;
 import icyllis.modernui.view.ViewGroup;
 import icyllis.modernui.widget.*;
-import net.minecraft.resources.ResourceLocation;
 
 public class NarrowPaginationAEFView extends RootAEFView {
+
     public static final int PAGINATION_WIDTH = (int) (RootAEFView.TOP_BOTTOM_HEIGHT * 0.625F);
     public static final int PAGINATION_BUTTON_HEIGHT = PAGINATION_WIDTH * 3;
     public static final int PAGINATION_EDGE_DIST = 1;
@@ -41,7 +44,6 @@ public class NarrowPaginationAEFView extends RootAEFView {
     private int paginationEdgeDist;
     private int paginationCR;
 
-
     protected PaginationButtonGroup centerRadioGroup;
 
     @Override
@@ -58,11 +60,11 @@ public class NarrowPaginationAEFView extends RootAEFView {
         centerRadioGroup.addView(new PageButton(getContext(), 1002, PublicTexture.getPublicImage(PublicTexture.ICON_BACKPACK)));
         centerRadioGroup.preCheck(1001);
 
-
         return centerLayout;
     }
 
     public class PaginationButtonGroup extends RadioGroup {
+
         public static final int CHECKED_BG_COLOR = 0xFF2C2C2A;
         private final Paint paint = new Paint();
         private int flagY;
@@ -142,6 +144,7 @@ public class NarrowPaginationAEFView extends RootAEFView {
     }
 
     public static class PageButton extends CompoundButton {
+
         public static final int COLOR_CHECKED = 0xFFD5D3CF;
         public static final int COLOR_UNCHECKED = 0xBFAFB1B3;
 
@@ -161,7 +164,7 @@ public class NarrowPaginationAEFView extends RootAEFView {
             setClickable(true);
             this.icon = icon;
 
-//            paint.setColorFilter();
+            // paint.setColorFilter();
 
             textureColorAnimator = ObjectAnimator.ofArgb(this, colorProperty, COLOR_UNCHECKED, COLOR_CHECKED);
             setOnHoverListener((view, event) -> switch (event.getAction()) {
@@ -200,7 +203,5 @@ public class NarrowPaginationAEFView extends RootAEFView {
                 return object.paint.getColor();
             }
         }
-
-
     }
 }

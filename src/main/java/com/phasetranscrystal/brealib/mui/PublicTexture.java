@@ -2,8 +2,10 @@ package com.phasetranscrystal.brealib.mui;
 
 import com.phasetranscrystal.brealib.BreaLib;
 import com.phasetranscrystal.brealib.utils.BreaUtil;
-import icyllis.modernui.graphics.Image;
+
 import net.minecraft.resources.ResourceLocation;
+
+import icyllis.modernui.graphics.Image;
 
 import java.util.HashMap;
 import java.util.Map;

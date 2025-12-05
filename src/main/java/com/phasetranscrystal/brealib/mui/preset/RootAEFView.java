@@ -3,18 +3,21 @@ package com.phasetranscrystal.brealib.mui.preset;
 import com.phasetranscrystal.brealib.mui.MuiHelper;
 import com.phasetranscrystal.brealib.mui.PublicTexture;
 import com.phasetranscrystal.brealib.mui.widget.HoverAlphaButton;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.resources.ResourceLocation;
+
 import icyllis.modernui.core.Context;
 import icyllis.modernui.graphics.*;
 import icyllis.modernui.graphics.drawable.ImageDrawable;
 import icyllis.modernui.graphics.drawable.ShapeDrawable;
 import icyllis.modernui.view.Gravity;
 import icyllis.modernui.widget.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class RootAEFView extends RelativeLayout {
+
     public static final int COLOR_ICON_BACKGROUND = 0xFFC1C1C4;
     public static final int COLOR_DIVIDING_LINE = 0xFF9F9F9F;
     public static final int COLOR_TOP = 0xFFD3D3D3;
@@ -22,8 +25,8 @@ public abstract class RootAEFView extends RelativeLayout {
     public static final int COLOR_LOWER = 0xB82A2A2A;
     public static final int COLOR_BOTTOM = 0xDF222222;
 
-    public static final int[] GRADIENT_COLOR = new int[]{COLOR_TOP, COLOR_CENTER, COLOR_LOWER, COLOR_LOWER};
-    public static final float[] GRADIENT_POSITON = new float[]{0F, 0.15F, 0.6F, 1F};
+    public static final int[] GRADIENT_COLOR = new int[] { COLOR_TOP, COLOR_CENTER, COLOR_LOWER, COLOR_LOWER };
+    public static final float[] GRADIENT_POSITON = new float[] { 0F, 0.15F, 0.6F, 1F };
 
     public static final int COLOR_TITLE_TEXT = 0xFF4A4C4B;
 
@@ -58,7 +61,7 @@ public abstract class RootAEFView extends RelativeLayout {
 
         init();
 
-        //关闭按钮
+        // 关闭按钮
         LayoutParams closeButtonParams = new LayoutParams((int) (tbHeight * 0.6F), (int) (tbHeight * 0.6F));
         closeButtonParams.setMarginsRelative(0, (int) (tbHeight * 0.2F), (int) (tbHeight * 0.2F), 0);
         closeButtonParams.addRule(ALIGN_PARENT_RIGHT);
@@ -66,7 +69,7 @@ public abstract class RootAEFView extends RelativeLayout {
         closeButton = new CloseButton(getContext());
         addView(closeButton, closeButtonParams);
 
-        //顶部标题条
+        // 顶部标题条
         LayoutParams titleLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         titleLayoutParams.setMargins((int) (tbHeight * 1.2F), (int) (tbHeight * 0.3F), 0, 0);
         titleLayoutParams.addRule(ALIGN_PARENT_LEFT);
@@ -98,7 +101,7 @@ public abstract class RootAEFView extends RelativeLayout {
             titleLayout.addView(secondTitleView);
         }
 
-        //中部布局
+        // 中部布局
         centerLayout = createCenterLayout();
         MuiHelper.setTestingBoarder(centerLayout);
         LayoutParams centerOuterLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -106,46 +109,45 @@ public abstract class RootAEFView extends RelativeLayout {
         addView(centerLayout, centerOuterLayoutParams);
     }
 
-    public void init(){
-    }
-
+    public void init() {}
 
     @Override
     @SuppressWarnings("all")
     public void onDraw(@NotNull Canvas canvas) {
         super.onDraw(canvas);
 
-        //绘制左上角区域
+        // 绘制左上角区域
         paint.setColor(COLOR_ICON_BACKGROUND);
         canvas.drawRoundRect(0, 0, tbHeight, tbHeight, r, 0, 0, 0, paint);
         if (icon != null) {
             canvas.drawImage(icon, null, new RectF(0, 0, tbHeight, tbHeight), null);
         }
 
-        //绘制顶部区域
+        // 绘制顶部区域
         paint.setColor(COLOR_TOP);
         canvas.drawRoundRect(tbHeight, 0, getWidth(), tbHeight, 0, r, 0, 0, paint);
 
-        //绘制标题内容
-//        paint.setColor(COLOR_TITLE_TEXT);
-//        paint.setTextSize(0.5F * tbHeight);
-//        canvas.drawSimpleText(I18n.get(titleKey), FontFamily.getSystemFontWithAlias("微软雅黑").getClosestMatch(FontPaint.NORMAL),
-//                tbHeight * 1.2F, tbHeight * 0.8F, paint);
+        // 绘制标题内容
+        // paint.setColor(COLOR_TITLE_TEXT);
+        // paint.setTextSize(0.5F * tbHeight);
+        // canvas.drawSimpleText(I18n.get(titleKey),
+        // FontFamily.getSystemFontWithAlias("微软雅黑").getClosestMatch(FontPaint.NORMAL),
+        // tbHeight * 1.2F, tbHeight * 0.8F, paint);
         canvas.drawImage(PublicTexture.getPublicImage(PublicTexture.ROOT_NAME_DEC), null,
                 new RectF(tbHeight * 1.2F, tbHeight * 0.15F, tbHeight * 2.2F, tbHeight * 0.35F), null);
 
-        //绘制中部渐变区域
+        // 绘制中部渐变区域
         canvas.drawRect(0, tbHeight, getWidth(), getHeight() - tbHeight, gradientPaint);
 
-//        //绘制左侧修饰纹理
-//        MuiHelper.imageMesh(PublicTexture.getPublicImage(PublicTexture.TEXTURE_LEFT_DEC), canvas,
-//                0, tbHeight, leftWidth, leftWidth, leftWidth, getHeight() - 2 * tbHeight);
+        // //绘制左侧修饰纹理
+        // MuiHelper.imageMesh(PublicTexture.getPublicImage(PublicTexture.TEXTURE_LEFT_DEC), canvas,
+        // 0, tbHeight, leftWidth, leftWidth, leftWidth, getHeight() - 2 * tbHeight);
 
-        //绘制底部区域
+        // 绘制底部区域
         paint.setColor(COLOR_BOTTOM);
         canvas.drawRoundRect(0, getHeight() - tbHeight, getWidth(), getHeight(), 0, 0, r, r, paint);
 
-        //绘制区域分界线
+        // 绘制区域分界线
         paint.setColor(COLOR_DIVIDING_LINE);
         canvas.drawLine(0, tbHeight, getWidth(), tbHeight, paint);
         canvas.drawLine(tbHeight, 0, tbHeight, tbHeight, paint);
@@ -161,6 +163,7 @@ public abstract class RootAEFView extends RelativeLayout {
     public abstract RelativeLayout createCenterLayout();
 
     public static class CloseButton extends HoverAlphaButton {
+
         public static final OnClickListener CLOSE_SCREEN = v -> Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(null));
 
         public CloseButton(Context context) {
@@ -179,6 +182,4 @@ public abstract class RootAEFView extends RelativeLayout {
             setBackground(new ImageDrawable(null, PublicTexture.getPublicImage(PublicTexture.ROOT_CLOSE_BUTTON)));
         }
     }
-
-
 }

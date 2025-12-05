@@ -35,7 +35,7 @@ public class TestInit {
     static {
         DebugTab = REGISTRATE.defaultCreativeTab("debug_tab", builder -> builder.icon(Items.COMMAND_BLOCK::getDefaultInstance)
                 .build())
-                .lang(t->"Debug Tab")
+                .lang(t -> "Debug Tab")
                 .register();
         REGISTRATE.defaultCreativeTab(TestInit.DebugTab.getKey());
         UITest = REGISTRATE.item("ui_test", MuiTestItem::new)
